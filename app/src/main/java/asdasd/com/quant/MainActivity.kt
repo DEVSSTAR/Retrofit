@@ -36,14 +36,5 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        val text by lazy {
-            println("wqda")
-            println("wdqaddaw")
-            println("wdqad12121daw")
-        }
-
-        btn_click.setOnClickListener {
-            println(text)
-        }
     }
 }
