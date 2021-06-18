@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         viewModel.getPost()
-        viewModel.myResponse.observe(this, Observer { response ->
+        viewModel.myResponse2.observe(this, Observer { response ->
             if (response.isSuccessful) {
                 Log.d("Response", response.body()?.userId.toString())
                 Log.d("Response", response.body()?.id.toString())
@@ -32,9 +32,13 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Log.d("Response", response.errorBody().toString())
             }
-
-
         })
+
+        button1.setOnClickListener {
+            val myNumber = number_editText.text.toString()
+            viewModel.getPost2(Integer.parseInt(myNumber))
+
+        }
 
     }
 }
