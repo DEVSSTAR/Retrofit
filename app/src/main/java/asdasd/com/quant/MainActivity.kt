@@ -1,6 +1,6 @@
 package asdasd.com.quant
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -22,22 +22,30 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         viewModel.getPost()
-        viewModel.myResponse2.observe(this, Observer { response ->
-            if (response.isSuccessful) {
-                Log.d("Response", response.body()?.userId.toString())
-                Log.d("Response", response.body()?.id.toString())
-                text_view.text = response.body()!!.title
-                text_view_body.text = response.body()!!.body
+        val options: HashMap<String, String> = HashMap()
+        options["_sort"] = "id"
+        options["_order"]= "desc"
 
-            } else {
-                Log.d("Response", response.errorBody().toString())
-            }
-        })
 
         button1.setOnClickListener {
             val myNumber = number_editText.text.toString()
-            viewModel.getPost2(Integer.parseInt(myNumber))
+            viewModel.getCustomPosts2(Integer.parseInt(myNumber), options)
+            viewModel.getCustomPosts2.observe(this, Observer { response ->
+                if (response.isSuccessful) {
+                    text_view.text = response.body().toString()
+                    response.body()?.forEach {
+                        Log.d("Response", it.userId.toString())
+                        Log.d("Response", it.id.toString())
+                        Log.d("Response", it.title.toString())
+                        Log.d("Response", it.body.toString())
+                        Log.d("Response", "--------------------")
+                    }
 
+                } else {
+
+                    text_view.text = response.code().toString()
+                }
+            })
         }
 
     }
